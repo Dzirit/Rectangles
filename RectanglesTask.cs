@@ -9,9 +9,27 @@ namespace Rectangles
 		public static bool AreIntersected(Rectangle r1, Rectangle r2)
 		{
 			// так можно обратиться к координатам левого верхнего угла первого прямоугольника: r1.Left, r1.Top
-			return (r1.Bottom >r2.Top  || r2.Bottom > r1.Top || r2.Left > r1.Right || r1.Left>r2.Right );
+			// везде одна проблема. Не учитываются отрицательные координаты.
+			if ((r1.Bottom > r2.Top && r1.Top > r2.Top && r1.Right > r2.Right && r1.Left > r2.Right)
+				|| r2.Height > r1.Top && r2.Top > r1.Top && r2.Right > r1.Right && r2.Left > r1.Right)
+				return false;
+			else
+				return true;
+			//return r1.Bottom >= r2.Top || r1.Left >= r2.Right || r2.Bottom >= r1.Top || r2.Left >= r1.Right;// Все случаи пересечения
+			//return ((r1.Bottom <= r2.Top && r2.Bottom >= r1.Top) || (r2.Left <= r1.Right && r1.Left >= r2.Right)
+			//	|| (r2.Bottom <= r1.Top && r1.Bottom >= r2.Top) || (r1.Left <= r2.Right && r2.Left >= r1.Right));
+			//if (r1.Left > r2.Left && r1.Top > r2.Top)
+			//{
+			//	if (r1.Bottom <= r2.Top || r1.Left >= r2.Right) return true;
+			//	else return false;
+			//}
+			//else
+			//{
+			//	if (r2.Bottom <= r1.Top || r2.Left >= r1.Right) return true;
+			//	else return false;
+			//}
 			//return ((Math.Max(r1.Left,r2.Left)<= Math.Min(r1.Right,r2.Right))&& (Math.Max(r1.Bottom, r2.Bottom) >= Math.Min(r1.Top, r2.Top)));//Эквиваленто первому...
-
+			//return (r2.Top<r1.Bottom && r1.Right>=r2.Left || r1.Top <r2.Bottom && r2.Right >= r1.Left);
 		}
 
 		// Площадь пересечения прямоугольников
