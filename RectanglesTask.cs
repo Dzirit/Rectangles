@@ -5,16 +5,24 @@ namespace Rectangles
 {
 	public static class RectanglesTask
 	{
+		//В мире компьютерной графики принято, что верхний левый угол экрана имеет координаты(0, 0), а ось Y направлена вниз, 
+		//	а не вверх, как принято в математике.Поэтому в этой задаче нижний край прямоугольника имеет большую координату,
+		//		чем верхний. Учитывайте это при решении задачи!
 		// Пересекаются ли два прямоугольника (пересечение только по границе также считается пересечением)
 		public static bool AreIntersected(Rectangle r1, Rectangle r2)
 		{
 			// так можно обратиться к координатам левого верхнего угла первого прямоугольника: r1.Left, r1.Top
-			// везде одна проблема. Не учитываются отрицательные координаты.
-			if ((r1.Bottom > r2.Top && r1.Top > r2.Top && r1.Right > r2.Right && r1.Left > r2.Right)
-				|| r2.Height > r1.Top && r2.Top > r1.Top && r2.Right > r1.Right && r2.Left > r1.Right)
+			if (((r1.Bottom < r2.Top & r1.Top < r2.Top) & (r1.Right < r2.Right & r1.Left < r2.Right))
+				|| ((r2.Bottom < r1.Top & r2.Top < r1.Top) & (r2.Right < r1.Right & r2.Left < r1.Right)))
 				return false;
 			else
 				return true;
+			// везде одна проблема. Не учитываются отрицательные координаты.
+			//if ((r1.Bottom > r2.Top && r1.Top > r2.Top && r1.Right > r2.Right && r1.Left > r2.Right)
+			//	|| r2.Height > r1.Top && r2.Top > r1.Top && r2.Right > r1.Right && r2.Left > r1.Right)
+			//	return false;
+			//else
+			//	return true;
 			//return r1.Bottom >= r2.Top || r1.Left >= r2.Right || r2.Bottom >= r1.Top || r2.Left >= r1.Right;// Все случаи пересечения
 			//return ((r1.Bottom <= r2.Top && r2.Bottom >= r1.Top) || (r2.Left <= r1.Right && r1.Left >= r2.Right)
 			//	|| (r2.Bottom <= r1.Top && r1.Bottom >= r2.Top) || (r1.Left <= r2.Right && r2.Left >= r1.Right));
@@ -37,11 +45,9 @@ namespace Rectangles
 		{
 			if (AreIntersected(r1,r2))
 			{
-				var maxTop = Math.Max(r1.Top, r2.Top);
-				var maxRight = Math.Max(r1.Right, r2.Right);
-				var maxLeft = Math.Max(r1.Left, r2.Left);
-				var maxBottom= Math.Max(r1.Bottom, r2.Bottom);
-				return maxBottom * maxRight;
+				var deltaX = r1.Left - r2.Right;
+				var deltaY = r2.Top - r1.Bottom;
+				return deltaX * deltaY;
 			}
 			return 0;
 		}
@@ -51,7 +57,9 @@ namespace Rectangles
 		// Если прямоугольники совпадают, можно вернуть номер любого из них.
 		public static int IndexOfInnerRectangle(Rectangle r1, Rectangle r2)
 		{
-			return -1;
+			if (r2.Top >= r1.Top && r2.Left >=r1.Left && r2.Right <= r1.Right && r2.Bottom <= r1.Bottom) return 1;// r2 внутри
+			else if (r1.Top >= r2.Top && r1.Left >= r2.Left && r1.Right <= r2.Right && r1.Bottom <= r2.Bottom) return 0;// r1 внутри
+			else return -1;
 		}
 	}
 }
