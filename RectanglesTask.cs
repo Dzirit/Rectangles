@@ -12,11 +12,21 @@ namespace Rectangles
 		public static bool AreIntersected(Rectangle r1, Rectangle r2)
 		{
 			// так можно обратиться к координатам левого верхнего угла первого прямоугольника: r1.Left, r1.Top
-			if (((r1.Bottom < r2.Top & r1.Top < r2.Top) & (r1.Right < r2.Right & r1.Left < r2.Right))
-				|| ((r2.Bottom < r1.Top & r2.Top < r1.Top) & (r2.Right < r1.Right & r2.Left < r1.Right)))
+			if ((r1.Left < r2.Left && r1.Right<r2.Left) || (r1.Top<r2.Top && r1.Bottom<r2.Top) ||
+				(r2.Left < r1.Left && r2.Right < r1.Left) || (r2.Top < r1.Top && r2.Bottom < r1.Top))
 				return false;
 			else
-				return true;
+				return true;//УРА!)
+			//if (((r1.Left <r2.Left && r1.Top < r2.Top) && (r1.Bottom < r2.Top || r1.Left < r2.Right))
+			//	|| (((r2.Left < r1.Left && r2.Top < r1.Top) && (r2.Bottom < r1.Top || r2.Left < r1.Right))))
+			//	return false;
+			//else
+			//	return true;
+			//if (((r1.Bottom < r2.Top & r1.Top < r2.Top) & (r1.Right < r2.Right & r1.Left < r2.Right))
+			//	|| ((r2.Bottom < r1.Top & r2.Top < r1.Top) & (r2.Right < r1.Right & r2.Left < r1.Right)))
+			//	return false;
+			//else
+			//	return true;
 			// везде одна проблема. Не учитываются отрицательные координаты.
 			//if ((r1.Bottom > r2.Top && r1.Top > r2.Top && r1.Right > r2.Right && r1.Left > r2.Right)
 			//	|| r2.Height > r1.Top && r2.Top > r1.Top && r2.Right > r1.Right && r2.Left > r1.Right)
