@@ -12,11 +12,13 @@ namespace Rectangles
 		public static bool AreIntersected(Rectangle r1, Rectangle r2)
 		{
 			// так можно обратиться к координатам левого верхнего угла первого прямоугольника: r1.Left, r1.Top
-			if ((r1.Left < r2.Left && r1.Right<r2.Left) || (r1.Top<r2.Top && r1.Bottom<r2.Top) ||
-				(r2.Left < r1.Left && r2.Right < r1.Left) || (r2.Top < r1.Top && r2.Bottom < r1.Top))
-				return false;
-			else
-				return true;//УРА!)
+			//if ((r1.Left < r2.Left && r1.Right<r2.Left) || (r1.Top<r2.Top && r1.Bottom<r2.Top) ||
+			//	(r2.Left < r1.Left && r2.Right < r1.Left) || (r2.Top < r1.Top && r2.Bottom < r1.Top))
+			//	return false;
+			//else
+			//	return true;//УРА!)
+			return ((r1.Right >= r2.Left) && (r1.Bottom >= r2.Top) &&
+				(r2.Right >= r1.Left) && (r2.Bottom >= r1.Top));
 			//if (((r1.Left <r2.Left && r1.Top < r2.Top) && (r1.Bottom < r2.Top || r1.Left < r2.Right))
 			//	|| (((r2.Left < r1.Left && r2.Top < r1.Top) && (r2.Bottom < r1.Top || r2.Left < r1.Right))))
 			//	return false;
@@ -55,9 +57,14 @@ namespace Rectangles
 		{
 			if (AreIntersected(r1,r2))
 			{
-				var deltaX = r1.Left - r2.Right;
-				var deltaY = r2.Top - r1.Bottom;
-				return deltaX * deltaY;
+				//return (r2.Left - r1.Right) * (r2.Top - r1.Bottom);
+				var left = Math.Max(r1.Left, r2.Left);
+				var right = Math.Min(r1.Right, r2.Right);
+				var top = Math.Min(r1.Top, r2.Top);
+				var bottom = Math.Min(r1.Bottom, r2.Bottom);
+				var width = Math.Max(right,left) - Math.Min(left,right);
+				var height = Math.Max(top,bottom) - Math.Min(top,bottom);
+				return width * height;
 			}
 			return 0;
 		}
